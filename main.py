@@ -1,19 +1,21 @@
-import importlib, sys, os, random
-
-pygame = importlib.import_module('pygame')
+# ********************************IMPORTS**********************************
+import pygame, sys, os, random
 from pygame.locals import *
 
 
+# ********************************VARIABLES**********************************
 # initialize windows/canvases
 pygame.init()
 pygame.display.set_caption('Karl\'s Pizza')
 window = pygame.display.set_mode((1000, 500))
 canvas = window.copy()
 drawingSize = [200, 200]
-r = random
 
-mouse = pygame.mouse # get mouse data
+mouse = pygame.mouse  # get mouse data
+_image_library = {}  # loaded images
 
+
+# ********************************CONSTANTS**********************************
 # Colors (r, g, b)
 WHITE = pygame.Color(255, 255, 255)
 RED = pygame.Color(255, 0, 0)
@@ -30,9 +32,18 @@ PIZZACRUST = pygame.Color(209, 169, 111)
 SAUCE = pygame.Color(225, 0, 0)
 CHEESE = pygame.Color(254, 206, 72)
 
-_image_library = {}  # loaded images
+
+# ===============================BEGIN CODE==================================
+# Program:   	Lesson 7 Exercise 4 - Karl's Pizza
+# Definition:   A program that allows the user to draw the pizza base and toppings, generating a great looking pizza!
+# Author:  	    Karl Palmer
+# History:      4/10/2019 - initial script creation
 
 
+# 	Procedure:   	newgame
+# 	Definition:  	initialize/reset variables for a new game to start
+# 	Author:  		Karl Palmer
+# 	History:        4/10/2019 - Initial Function Creation
 def newgame():
     global r, baseDrawn, base, topping1Drawn, topping1, topping2Drawn, topping2, topping3Drawn, topping3, topping4Drawn
     global topping4, topping4Drawing, toppings, toppingSizes, toppingPoses, toppingRots, color, size
@@ -60,12 +71,16 @@ def newgame():
     toppingRots = []         # [deg...]
 
     for i in range(0, len(toppings)):
-        toppingSizes.extend([r.randrange(20, 40)])       # get a random w/h
-        toppingPoses[0].extend([r.randrange(415, 540)])  # get a random x position
-        toppingPoses[1].extend([r.randrange(65, 215)])   # get a random y position
-        toppingRots.extend([r.randrange(0, 360)])        # get a random rotation
+        toppingSizes.extend([random.randrange(20, 40)])       # get a random w/h
+        toppingPoses[0].extend([random.randrange(415, 540)])  # get a random x position
+        toppingPoses[1].extend([random.randrange(65, 215)])   # get a random y position
+        toppingRots.extend([random.randrange(0, 360)])        # get a random rotation
 
 
+# 	Procedure:   	get_image
+# 	Definition:  	loads directed image
+# 	Author:  		Karl Palmer
+# 	History:        4/10/2019 - Initial Function Creation
 def get_image(path):
     global _image_library
     image = _image_library.get(path)
@@ -76,6 +91,10 @@ def get_image(path):
     return image
 
 
+# 	Procedure:   	nextbutton
+# 	Definition:  	detects if mouse clicked on next button and sets current drawing to true so it will go to next one
+# 	Author:  		Karl Palmer
+# 	History:        4/10/2019 - Initial Function Creation
 def nextbutton(xmin, xmax, ymin, ymax, canvas, canvasname):
     global color, size, baseDrawn, topping1Drawn, topping2Drawn, topping3Drawn, topping4Drawn
     if pygame.mouse.get_pressed()[0] and mouseX > xmin and mouseX < xmax and mouseY > ymin and mouseY < ymax:
@@ -93,29 +112,49 @@ def nextbutton(xmin, xmax, ymin, ymax, canvas, canvasname):
         pygame.time.wait(100)  # prevent from clicking the next canvas's next button
 
 
+# 	Procedure:   	finishbutton
+# 	Definition:  	detects if mouse clicked on finish/playagain button and run the newgame method to reset variables
+# 	Author:  		Karl Palmer
+# 	History:        4/10/2019 - Initial Function Creation
 def finishbutton(xmin, xmax, ymin, ymax):
     global color, size, baseDrawn, topping1Drawn, topping2Drawn, topping3Drawn, topping4Drawn
     if pygame.mouse.get_pressed()[0] and mouseX > xmin and mouseX < xmax and mouseY > ymin and mouseY < ymax:
         newgame()
 
 
+# 	Procedure:   	colorbutton
+# 	Definition:  	detects if mouse clicked on color button and sets the current drawing color to specified color
+# 	Author:  		Karl Palmer
+# 	History:        4/10/2019 - Initial Function Creation
 def colorbutton(xmin, xmax, ymin, ymax, newcolor):
     global color
     if pygame.mouse.get_pressed()[0] and mouseX > xmin and mouseX < xmax and mouseY > ymin and mouseY < ymax:
         color = newcolor
 
 
+# 	Procedure:   	sizebutton
+# 	Definition:  	detects if mouse clicked on size button and sets the current drawing size to specified size
+# 	Author:  		Karl Palmer
+# 	History:        4/10/2019 - Initial Function Creation
 def sizebutton(xmin, xmax, ymin, ymax, newsize):
     global size
     if pygame.mouse.get_pressed()[0] and mouseX > xmin and mouseX < xmax and mouseY > ymin and mouseY < ymax:
         size = newsize
 
 
+# 	Procedure:   	drawingevent
+# 	Definition:  	draws a circle at the current mouse position with the current size/color on the specified surface
+# 	Author:  		Karl Palmer
+# 	History:        4/10/2019 - Initial Function Creation
 def drawingevent(canvas):
     global width, height, size
     pygame.draw.circle(canvas, color, [pygame.mouse.get_pos()[0] - 400, pygame.mouse.get_pos()[1] - 50], size)
 
 
+# 	Procedure:   	basedrawcolors
+# 	Definition:  	draws the buttons for changing colors on the base screen
+# 	Author:  		Karl Palmer
+# 	History:        4/10/2019 - Initial Function Creation
 def basedrawcolors():
     pygame.draw.rect(window, PIZZACRUST, (462.5, 255, 25, 25))
     colorbutton(462.5, 487.5, 255, 280, PIZZACRUST)
@@ -131,6 +170,10 @@ def basedrawcolors():
         pygame.draw.rect(window, BLACK, (512.5, 283, 25, 3))
 
 
+# 	Procedure:   	toppingdrawcolors
+# 	Definition:  	draws the buttons for changing colors on the topping screens
+# 	Author:  		Karl Palmer
+# 	History:        4/10/2019 - Initial Function Creation
 def toppingdrawcolors():
     pygame.draw.rect(window, BLACK, (400, 255, 25, 25))
     colorbutton(400, 425, 255, 280, BLACK)
@@ -166,6 +209,10 @@ def toppingdrawcolors():
         pygame.draw.rect(window, BLACK, (575, 283, 25, 3))
 
 
+# 	Procedure:   	draw_sizebuttons
+# 	Definition:  	draws the buttons for changing drawing size for base and topping screens
+# 	Author:  		Karl Palmer
+# 	History:        4/10/2019 - Initial Function Creation
 def draw_sizebuttons():
     window.blit(get_image('images/size2.jpg'), (400, 20))
     window.blit(get_image('images/size4.jpg'), (443.75, 20))
@@ -189,6 +236,10 @@ def draw_sizebuttons():
         pygame.draw.rect(window, BLACK, (575, 14, 25, 3))
 
 
+# 	Procedure:   	drawbg
+# 	Definition:  	draws the GUI that appears on all screens
+# 	Author:  		Karl Palmer
+# 	History:        4/10/2019 - Initial Function Creation
 def drawbg(title, button, progress):
     window.fill(BGCOLOR)
     pygame.draw.rect(window, DRAWBORDER, (397, 47, 206, 206))
@@ -199,6 +250,10 @@ def drawbg(title, button, progress):
     window.blit(get_image(button), (384, 335))
 
 
+# 	Procedure:   	rungame
+# 	Definition:  	runs a game frame
+# 	Author:  		Karl Palmer
+# 	History:        4/10/2019 - Initial Function Creation
 def rungame():
     # get mouse x and y positions
     global mouseX, mouseY
@@ -284,3 +339,4 @@ finally:  # exit/quit game
     print('\nClosing Karl\'s Pizza...')
     pygame.quit()
     sys.exit()
+# =================================END CODE==================================
