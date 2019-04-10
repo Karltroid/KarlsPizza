@@ -59,9 +59,9 @@ def newgame():
     toppingRots = []         # [deg...]
 
     for i in range(0, len(toppings)):
-        toppingSizes.extend([r.randrange(10, 30)])       # get a random w/h
-        toppingPoses[0].extend([r.randrange(415, 530)])  # get a random x position
-        toppingPoses[1].extend([r.randrange(80, 195)])   # get a random y position
+        toppingSizes.extend([r.randrange(20, 40)])       # get a random w/h
+        toppingPoses[0].extend([r.randrange(415, 540)])  # get a random x position
+        toppingPoses[1].extend([r.randrange(65, 215)])   # get a random y position
         toppingRots.extend([r.randrange(0, 360)])        # get a random rotation
 
 
@@ -184,15 +184,15 @@ def draw_sizebuttons():
     sizebutton(531.25, 556.25, 20, 45, 15)
     sizebutton(575, 600, 20, 45, 20)
     if size == 2:
-        pygame.draw.rect(window, BLACK, (400, 15, 25, 3))
+        pygame.draw.rect(window, BLACK, (400, 14, 25, 3))
     elif size == 5:
-        pygame.draw.rect(window, BLACK, (443.75, 15, 25, 3))
+        pygame.draw.rect(window, BLACK, (443.75, 14, 25, 3))
     elif size == 10:
-        pygame.draw.rect(window, BLACK, (487.5, 15, 25, 3))
+        pygame.draw.rect(window, BLACK, (487.5, 14, 25, 3))
     elif size == 15:
-        pygame.draw.rect(window, BLACK, (531.25, 15, 25, 3))
+        pygame.draw.rect(window, BLACK, (531.25, 14, 25, 3))
     elif size == 20:
-        pygame.draw.rect(window, BLACK, (575, 15, 25, 3))
+        pygame.draw.rect(window, BLACK, (575, 14, 25, 3))
 
 
 def drawbg(title, button, progress):
