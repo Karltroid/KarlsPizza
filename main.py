@@ -1,4 +1,6 @@
-import pygame, sys, os, random
+import importlib, sys, os, random
+
+pygame = importlib.import_module('pygame')
 from pygame.locals import *
 
 
@@ -10,8 +12,7 @@ canvas = window.copy()
 drawingSize = [200, 200]
 r = random
 
-# get mouse data
-mouse = pygame.mouse
+mouse = pygame.mouse # get mouse data
 
 # Colors (r, g, b)
 WHITE = pygame.Color(255, 255, 255)
@@ -65,12 +66,6 @@ def newgame():
         toppingRots.extend([r.randrange(0, 360)])        # get a random rotation
 
 
-# infinite loop for main for loop
-def running():
-    while True:
-        yield
-
-
 def get_image(path):
     global _image_library
     image = _image_library.get(path)
@@ -96,7 +91,6 @@ def nextbutton(xmin, xmax, ymin, ymax, canvas, canvasname):
         elif canvasname == "topping4":
             topping4Drawn = True
         pygame.time.wait(100)  # prevent from clicking the next canvas's next button
-
 
 
 def finishbutton(xmin, xmax, ymin, ymax):
@@ -204,6 +198,7 @@ def drawbg(title, button, progress):
     window.blit(get_image(progress), (675, 185))
     window.blit(get_image(button), (384, 335))
 
+
 def rungame():
     # get mouse x and y positions
     global mouseX, mouseY
@@ -279,8 +274,8 @@ newgame()  # setup the first game
 try:  # running game loop
     while True:
         event = pygame.event.wait()
-        if event.type == QUIT:
-            break
+        if event.type == QUIT:       # check for quit even
+            break                    # leave the game loop
         else:
             rungame()                # run logic for game frame
             pygame.display.update()  # update screen
