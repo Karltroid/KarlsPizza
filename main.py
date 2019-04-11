@@ -1,6 +1,10 @@
 # ********************************IMPORTS**********************************
-import pygame, sys, os, random
-from pygame.locals import *
+import sys, os, random
+try:
+    import pygame
+    from pygame.locals import *
+except:
+    print('PyGame not installed: https://www.pygame.org/wiki/GettingStarted')
 
 
 # ********************************VARIABLES**********************************
@@ -86,7 +90,10 @@ def get_image(path):
     image = _image_library.get(path)
     if image == None:
         canonicalized_path = path.replace('/', os.sep).replace('\\', os.sep)
-        image = pygame.image.load(canonicalized_path)
+        try:
+            image = pygame.image.load(canonicalized_path)
+        except:
+            print('image: ' + canonicalized_path + ' could not be found/loaded.')
         _image_library[path] = image
     return image
 
@@ -109,7 +116,7 @@ def nextbutton(xmin, xmax, ymin, ymax, canvas, canvasname):
             topping3Drawn = True
         elif canvasname == "topping4":
             topping4Drawn = True
-        pygame.time.wait(100)  # prevent from clicking the next canvas's next button
+        pygame.time.wait(150)  # prevent from clicking the next canvas's next button
 
 
 # 	Procedure:   	finishbutton
